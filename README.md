@@ -41,7 +41,7 @@ reusable to any smart-contract I might write in the future.
 
 You need access to some Ethereum blockchain network. For me it did not make sense to run
  own node just for testing as it can take a lot of disk space and could be slow to start.
- So I used [Infura](infura.io) which provides 
+ So I used [Infura](http://infura.io) which provides 
  API that the standard client libraries know how to connect. From development
  perspective it functions as you would have your own node.
 
