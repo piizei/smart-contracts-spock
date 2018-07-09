@@ -18,3 +18,5 @@ out/
 
 test-wallet-purchaser.json
 test-wallet-supplier.json
+purchaser.properties
+supplier.properties
