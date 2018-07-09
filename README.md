@@ -1,6 +1,5 @@
 # Testing Solidity/Ethereum smart contracts with Spock Framework
 
-##Intro
 I started this project after evaluating few tools for smart-contract development. 
 It's based on the great [Spock framework](http://spockframework.org/)
 
