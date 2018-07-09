@@ -1,0 +1,16 @@
+plugins {
+    id 'groovy'
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile ('org.web3j:core:3.4.0')
+    compile ('org.web3j:codegen:3.4.0')
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+}
+

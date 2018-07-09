@@ -1,0 +1,20 @@
+*.iml
+*.ipr
+*.iws
+.idea/
+*.log
+*.pyc
+
+build/
+.gradle/
+out/
+
+# misc
+.DS_Store
+.env
+
+
+.cache-loader
+
+test-wallet-purchaser.json
+test-wallet-supplier.json

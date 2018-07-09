@@ -1,0 +1,79 @@
+plugins {
+    id 'groovy'
+}
+
+defaultTasks 'test'
+
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile('org.web3j:core:3.4.0')
+
+    // Use the awesome Spock testing and specification framework
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+}
+// Hack groovy to compile both Java and Groovy sources
+sourceSets {
+    main {
+        java { srcDirs = [] }
+        groovy { srcDirs = ["src/main/java", "src/main/groovy"] }
+    }
+}
+
+task prepareFirstRun(type: GradleBuild) {
+    tasks = ['createWrappers', 'createSupplierWallet',
+             'createPurchaserWallet', 'walletPreconditionsCheck']
+}
+
+task compileSolidity(type: Exec) {
+
+    def compiler = { file ->
+        commandLine 'docker', 'run', '-v',
+                "${projectDir}:/solidity/project", 'ethereum/solc:stable', '-o',
+                'project/build/tmp/solidity-output',
+                '--optimize', '--combined-json', 'bin,interface,abi,metadata',
+                '--overwrite',
+                "project/src/main/solidity/${file.name}"
+    }
+
+    files { new File('src/main/solidity').listFiles() }.each { file ->
+        compiler(file)
+    }
+}
+
+task networkInfo(dependsOn: 'classes', type: JavaExec) {
+    main = 'DebugNetwork'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+task printSupplierWalletAddress << {
+    println EthereumWallet.getAccountAddress('test-wallet-supplier.json')
+
+}
+task printPurchaserWalletAddress << {
+    println EthereumWallet.getAccountAddress('test-wallet-purchaser.json')
+}
+
+
+task walletPreconditionsCheck(dependsOn: 'classes', type: JavaExec) {
+    main = 'WalletPreconditionsCheck'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task createSupplierWallet(type: EthereumWallet) {
+    walletName = 'test-wallet-supplier.json'
+
+}
+task createPurchaserWallet(type: EthereumWallet) {
+    walletName = 'test-wallet-purchaser.json'
+}
+
+task createWrappers(dependsOn: compileSolidity, type: ContractWrapperCompiler) {}
+test.dependsOn createWrappers
