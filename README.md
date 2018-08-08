@@ -17,11 +17,11 @@ The compiler that compiles the solidity smart-contracts is run with docker.
 If your system does not support docker, you can install it manually and change the 
 _compileSolidity_ task in the _build.gradle_
 
-### Gradle
-Obvious choice with Spock...
-
 ### Groovy
 What else? Maybe TypeScript, maybe next time.
+
+### Gradle
+Kind of given with Groovy.
 
 ## About this example
 
@@ -90,3 +90,5 @@ Win:
 ./gradlew.bat test
 
 ````
+
+The test report will be generated into `build/reports/tests/test`
